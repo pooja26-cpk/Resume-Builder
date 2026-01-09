@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const TagInput = ({ tags, setTags }) => {
   const [input, setInput] = useState('');
@@ -67,6 +68,11 @@ const TagInput = ({ tags, setTags }) => {
       </div>
     </>
   );
+};
+
+TagInput.propTypes = {
+ tags: PropTypes.arrayOf(PropTypes.string).isRequired,
+ setTags: PropTypes.func.isRequired,
 };
 
 export default TagInput;

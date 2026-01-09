@@ -1,0 +1,20 @@
+.template-switcher {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.template-option {
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  flex: 1;
+}
+
+.template-option:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+}

@@ -6,13 +6,13 @@ import Builder from './components/Builder';
 function App() {
   return (
     <Router>
-      <header className="app-header" style={styles.header}>
-        <Link to="/" style={styles.logo}>
+      <header className="app-header">
+        
           <h1>ProResume</h1>
-        </Link>
+        
         
       </header>
-      <main className="container" style={styles.container}>
+      <main className="container">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/builder" element={<Builder />} />
@@ -22,31 +22,5 @@ function App() {
     </Router>
   );
 }
-
-const styles = {
-  header: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1rem',
-    backgroundColor: '#282c34',
-    color: 'white',
-    flexWrap: 'wrap',
-  },
-  logo: {
-    textDecoration: 'none',
-    color: 'white',
-  },
-  link: {
-    color: '#61dafb',
-    textDecoration: 'none',
-    fontSize: '1.1rem',
-  },
-  container: {
-    padding: '1rem',
-    width: '100%',
-    boxSizing: 'border-box',
-  },
-};
 
 export default App;

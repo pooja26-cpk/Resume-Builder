@@ -1,0 +1,25 @@
+.home-container {
+  text-align: center;
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.home-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.home-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 2.5rem;
+  color: var(--accent-color);
+  max-width: 650px;
+  margin: 0 auto 2.5rem;
+}
+
+.home-button {
+  font-size: 1.1rem;
+}

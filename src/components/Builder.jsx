@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import FormSection from './FormSection';
 import TagInput from './TagInput';
+import './Builder.css';
 import ResumePreview from './ResumePreview';
 import { exportPDF } from '../utils';
 
 const Builder = () => {
-  const [resume, setResume] = useState({
-    personal: { name: '', email: '', phone: '', address: '' },
-    summary: '',
-    education: [{ school: '', degree: '', year: '' }],
-    experience: [{ company: '', position: '', duration: '', description: '' }],
-    skills: []
+  const [resume, setResume] = useState(() => {
+    const saved = localStorage.getItem('resume');
+    return saved ? JSON.parse(saved) : {
+      personal: { name: '', email: '', phone: '', address: '' },
+      summary: '',
+      education: [{ school: '', degree: '', year: '' }],
+      experience: [{ company: '', position: '', duration: '', description: '' }],
+      skills: []
+    };
   });
 
   const [template, setTemplate] = useState('classic');
-
-  useEffect(() => {
-    const saved = localStorage.getItem('resume');
-    if (saved) {
-      setResume(JSON.parse(saved));
-    }
-  }, []);
 
   const updatePersonal = (field, value) => {
     setResume({
@@ -115,7 +112,7 @@ const Builder = () => {
 
   return (
     <motion.div
-      className="container builder-layout"
+      className="container builder-grid"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
     >
@@ -123,7 +120,7 @@ const Builder = () => {
          <Link to="/" className="btn btn-secondary">
             Back to Home
           </Link>
-        <h2 style={{ color: 'var(--text-color)', marginBottom: '30px' }}>Resume Content</h2>
+        <h2 className="builder-title">Resume Content</h2>
 
         <FormSection title="Personal Details">
           <div className="grid-2-col">
@@ -139,7 +136,7 @@ const Builder = () => {
             placeholder="Brief summary of your career"
             value={resume.summary}
             onChange={(e) => updateSummary(e.target.value)}
-            style={{ minHeight: '120px', marginBottom: '10px' }}
+            className="summary-textarea"
           />
           <button onClick={improveSummary} className="btn btn-primary">
             Improve with AI
@@ -148,8 +145,8 @@ const Builder = () => {
 
         <FormSection title="Education">
           {resume.education.map((edu, i) => (
-            <div key={i} className="card" style={{ marginBottom: '15px' }}>
-              <div className="grid-2-col" style={{ marginBottom: '10px' }}>
+            <div key={i} className="card card-mb-15">
+              <div className="grid-2-col grid-mb-10">
                 <input type="text" placeholder="School/University" value={edu.school} onChange={(e) => updateEducation(i, 'school', e.target.value)} />
                 <input type="text" placeholder="Degree" value={edu.degree} onChange={(e) => updateEducation(i, 'degree', e.target.value)} />
                 <input type="text" placeholder="Year" value={edu.year} onChange={(e) => updateEducation(i, 'year', e.target.value)} />
@@ -166,8 +163,8 @@ const Builder = () => {
 
         <FormSection title="Experience">
           {resume.experience.map((exp, i) => (
-            <div key={i} className="card" style={{ marginBottom: '15px' }}>
-              <div className="grid-2-col" style={{ marginBottom: '10px' }}>
+            <div key={i} className="card card-mb-15">
+              <div className="grid-2-col grid-mb-10">
                 <input type="text" placeholder="Company" value={exp.company} onChange={(e) => updateExperience(i, 'company', e.target.value)} />
                 <input type="text" placeholder="Position" value={exp.position} onChange={(e) => updateExperience(i, 'position', e.target.value)} />
                 <input type="text" placeholder="Duration" value={exp.duration} onChange={(e) => updateExperience(i, 'duration', e.target.value)} />
@@ -176,14 +173,14 @@ const Builder = () => {
                 placeholder="Description"
                 value={exp.description}
                 onChange={(e) => updateExperience(i, 'description', e.target.value)}
-                style={{ minHeight: '80px', marginBottom: '10px' }}
+                className="experience-textarea"
               />
               <button onClick={() => removeExperience(i)} className="btn btn-danger">
                 Remove
               </button>
             </div>
           ))}
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div className="flex-gap-10">
             <button onClick={addExperience} className="btn btn-primary">
               Add Experience
             </button>
@@ -197,7 +194,7 @@ const Builder = () => {
           <TagInput tags={resume.skills} setTags={(tags) => setResume({ ...resume, skills: tags })} />
         </FormSection>
 
-        <div style={{ marginTop: '30px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+        <div className="action-buttons">
          
           <button onClick={saveResume} className="btn btn-primary">
             Save Resume
@@ -214,30 +211,30 @@ const Builder = () => {
         </div>
       </div>
 
-      <div style={{ position: 'sticky', top: '2rem' }}>
+      <div className="resume-preview-sticky">
         <div className="card">
-          <h3 style={{ marginBottom: '15px', color: 'var(--text-color)' }}>Template</h3>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '10px' }}>
+          <h3 className="template-switcher">Template</h3>
+          <div className="template-buttons">
             <button
               onClick={() => setTemplate('classic')}
-              className={`btn ${template === 'classic' ? 'btn-primary' : ''}`}
-              style={{ background: template !== 'classic' ? '#e9ecef' : '', color: template !== 'classic' ? 'var(--text-color)' : '' }}
+              className={`btn template-button ${template === 'classic' ? 'active' : ''}`}
             >
               Classic
             </button>
             <button
               onClick={() => setTemplate('modern')}
-              className={`btn ${template === 'modern' ? 'btn-primary' : ''}`}
-               style={{ background: template !== 'modern' ? '#e9ecef' : '', color: template !== 'modern' ? 'var(--text-color)' : '' }}
+              className={`btn template-button ${template === 'modern' ? 'active' : ''}`}
            >
               Modern
             </button>
           </div>
         </div>
-        <ResumePreview resume={resume} template={template} />
+        <div className="resume-preview">
+          <ResumePreview resume={resume} template={template} />
+        </div>
       </div>
-    </motion.div>
-  );
+      </motion.div>
+    );
 };
 
 export default Builder;

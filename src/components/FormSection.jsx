@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { motion } from 'framer-motion';
 
 const FormSection = ({ title, children }) => {
@@ -13,6 +14,11 @@ const FormSection = ({ title, children }) => {
       {children}
     </motion.div>
   );
+};
+
+FormSection.propTypes = {
+ title: PropTypes.string.isRequired,
+ children: PropTypes.node.isRequired,
 };
 
 export default FormSection;
